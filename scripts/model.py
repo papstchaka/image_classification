@@ -1,3 +1,5 @@
+# start tensorboard with `tensorboard --logdir='{path}/logs' --port 2222`
+
 
 class model():
     
@@ -49,7 +51,7 @@ class model():
                              datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
                              )
         logdir = logdir.replace("/","\\")
-        self.start_tensorboard(logdir)
+#         self.start_tensorboard(logdir)
         return tf.keras.callbacks.TensorBoard(logdir)
     
     def early_stopping_callback(self):
@@ -74,8 +76,9 @@ class model():
                   callbacks = [tensorboard, early_stopping]
                   )
         # Return the fitted model
-        model_name = model_name if len(model_name) > 0 else datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        model_name = model_name if len(model_name) > 0 else datetime.datetime.now().strftime("%H%M%S")
         self.save_model(model, model_name)
+        model.evaluate(val_data)
         return model
     
     def start_tensorboard(self, logdir):
@@ -91,15 +94,16 @@ class model():
         # Create a model diretory pathname with current time
         modeldir = os.path.join(self.path + "models/",
                                    datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
-        model_path = modeldir + "-" + suffix + ".h5" # save format of model
-        print(f'Saving model to: {model_path} ...')
-        model.save(model_path)
-        return model_path
+        self.model_path = modeldir + "-" + suffix + ".h5" # save format of model
+        print(f'Saving model to: {self.model_path} ...')
+        model.save(self.model_path)
+        return self.model_path
 
-    def load_model(self, model_path):
+    def load_model(self, model_path=""):
         """
         Loads a saved model from a specified path
         """
+        model_path = model_path if len(model_path) > 0 else self.model_path
         print(f'Loading saved model from: {model_path}')
         model = tf.keras.models.load_model(model_path,
                                         custom_objects = {"KerasLayer" : hub.KerasLayer})
