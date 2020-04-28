@@ -1,7 +1,7 @@
 
 class import_data():
     
-    def __init__(self, path, NUM_IMAGES = -1):
+    def __init__(self, path, NUM_IMAGES=-1):
         self.path = path + "/"
         self.NUM_IMAGES = NUM_IMAGES
         self.global_imports()
@@ -11,7 +11,7 @@ class import_data():
         import pandas, numpy, os
         pd, np, os = pandas, numpy, os
         
-    def import_raw_data(self, describe = False, plot = False):
+    def import_raw_data(self, describe=False, plot=False):
         if "labels.csv" in os.listdir(self.path):
             self.labels_data = pd.read_csv(self.path + "labels.csv")
 
