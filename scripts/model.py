@@ -51,8 +51,7 @@ class model():
                              datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
                              )
         logdir = logdir.replace("/","\\")
-#         self.start_tensorboard(logdir)
-        return tf.keras.callbacks.TensorBoard(logdir)
+        return tf.keras.callbacks.TensorBoard(logdir, update_freq="batch")
     
     def early_stopping_callback(self):
         return tf.keras.callbacks.EarlyStopping(monitor="val_accuracy",
@@ -81,12 +80,6 @@ class model():
         model.evaluate(val_data)
         return model
     
-    def start_tensorboard(self, logdir):
-        from tensorboard import program
-        tb = program.TensorBoard()
-        tb.configure(argv=[None, '--logdir', logdir])
-        url = tb.launch()
-        
     def save_model(self, model, suffix=None):
         """
         Saves a given model in a models directory and appends a suffix (string)
