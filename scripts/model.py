@@ -85,6 +85,10 @@ class model():
         Saves a given model in a models directory and appends a suffix (string)
         """
         # Create a model diretory pathname with current time
+        try:
+            os.mkdir(self.path + "models/")
+        except:
+            pass
         modeldir = os.path.join(self.path + "models/",
                                    datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
         self.model_path = modeldir + "-" + suffix + ".h5" # save format of model
