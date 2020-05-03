@@ -58,15 +58,16 @@ Pipeline will than change the folder structure to be exact the same as in 1.
 Pipeline provides various options to use it. It is built very modular, so you can insert and use all the scripts in `script`-folder independently. Going through them step-by-step
 
 ### import_data.py
+Manages the import of training data and labels, splitting it into training and validation sets.
 #### init class
 inits the class
 * required parameter
 ```
-    path:       - path to the dataset (as described above) - String
+    path:           - path to the dataset (as described above) - String
 ```
 * optional parameter
 ```
-    NUM_IMAGES: - number of images that shall be used to train the model. Helps during testing process to avoid the model from taking too much time during training - Integer - default = -1 --> all
+    NUM_IMAGES:     - number of images that shall be used to train the model. Helps during testing process to avoid the model from taking too much time during training - Integer - default = -1 --> all
 ```
 #### import_raw_data()
 refactors the required folder structure and imports the data from the files
@@ -76,8 +77,12 @@ refactors the required folder structure and imports the data from the files
 ```
 * optional parameter
 ```
-    describe:   - whether or not the Pipeline shall give a short description of the given labels and show the distribution of given labels - Boolean - default = False
-    plot:       - whether or not showing an example of the training data. Will show the first image from the train-folder - Boolean - default = False
+    describe:       - whether or not the Pipeline shall give a short description of the given labels and show the distribution of given labels - Boolean - default = False
+    plot:           - whether or not showing an example of the training data. Will show the first image from the train-folder - Boolean - default = False
+```
+* returns
+```
+    none
 ```
 #### get_raw_traindata()
 Loads the filenames of the training data and splits it into X_train, X_val, y_train and y_test. Loads labels and gives a list of all unique labels that exist.
@@ -88,4 +93,40 @@ Loads the filenames of the training data and splits it into X_train, X_val, y_tr
 * optional parameter
 ```
     none
+```
+* returns
+```
+    none
+```
+
+### preprocessing.py
+Preprocesses the training and validation (or testing) datasets, gives them back as data batches to be used during training
+#### init class
+inits the class
+* required parameter
+```
+   unique_labels:   - list of all unique labels that exist. Should be the list that is given by `import_data.unique_labels` which is created using `import_data.get_raw_traindata()` - numpy.array
+```
+* optional parameter
+```
+    IMG_SIZE:       - size that the images must have to be processed by the model (is defined by the size that the desired model from `tensorflow_hub` uses) - Integer - default = 224
+    BATCH_SIZE:     - size of data batches that shall be processed during training - Integer - default = 32
+```
+#### create_data_batches()
+Creates and returns data batches from given data. Optionally describes and displays an example
+* required parameter
+```
+    X:              - X data for batch (like X_train, X_val or X_test) - pandas.DataFrame
+```
+* optional parameter
+```
+    y:              - y data for batch (like y_train, y_val). Has to be provided if training or validation batches shall be returned. Only unused for y_test because no y_test available - pandas.DataFrame - default = None
+    valid_data:     - whether or not validation batch shall be returned - Boolean - default = False
+    test_data:      - whether or not test batch shall be returned - Boolean - default = False
+    describe:       - whether or not the Pipeline shall give a short description of the determined data batch - Boolean - default = False
+    plot:           - whether or not showing an example of the determined data batch. Will show the first 25 images from the batch in one plot - Boolean - default = False
+```
+* returns
+```
+    data_batch:     - data batch of provided data - tensorflow.data.Dataset.batch
 ```
