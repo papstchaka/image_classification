@@ -58,6 +58,8 @@ Pipeline will than change the folder structure to be exact the same as in 1.
 Pipeline provides various options to use it. It is built very modular, so you can insert and use all the scripts in `script`-folder independently. Going through them step-by-step
 
 ### import_data.py
+#### init class
+inits the class
 * required parameter
 ```
     path:       - path to the dataset (as described above) - String
@@ -65,4 +67,25 @@ Pipeline provides various options to use it. It is built very modular, so you ca
 * optional parameter
 ```
     NUM_IMAGES: - number of images that shall be used to train the model. Helps during testing process to avoid the model from taking too much time during training - Integer - default = -1 --> all
+```
+#### import_raw_data()
+refactors the required folder structure and imports the data from the files
+* required parameter
+```
+    none
+```
+* optional parameter
+```
+    describe:   - whether or not the Pipeline shall give a short description of the given labels and show the distribution of given labels - Boolean - default = False
+    plot:       - whether or not showing an example of the training data. Will show the first image from the train-folder - Boolean - default = False
+```
+#### get_raw_traindata()
+Loads the filenames of the training data and splits it into X_train, X_val, y_train and y_test. Loads labels and gives a list of all unique labels that exist.
+* required parameter
+```
+    none
+```
+* optional parameter
+```
+    none
 ```
