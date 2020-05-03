@@ -130,3 +130,71 @@ Creates and returns data batches from given data. Optionally describes and displ
 ```
     data_batch:     - data batch of provided data - tensorflow.data.Dataset.batch
 ```
+
+### model.py
+Creates, trains, loads and saves the classification model
+#### init class
+inits the class
+* required parameter
+```
+   unique_labels:   - list of all unique labels that exist. Should be the list that is given by `import_data.unique_labels` which is created using `import_data.get_raw_traindata()` - numpy.array
+   path:            - path where logs and model shall be saved (can be same as <path-to-dataset>) - String
+```
+* optional parameter
+```
+    IMG_SIZE:       - size that the images must have to be processed by the model (is defined by the size that the desired model from `tensorflow_hub` uses) - Integer - default = 224
+    MODEL_URL:      - url to the desired pretrained model from <a href="https://www.tensorflow.org/hub" target="_blank">`TensorFlow-Hub`</a> - String - default = "https://tfhub.dev/google/imagenet/mobilenet_v2_130_224/classification/4"
+```
+#### train_model()
+creates, trains, evaluates and saves the model. An own created model can be passed if desired.
+* required parameter
+```
+    train_data:     - data to train model on (given by preprocessing.py) - tensorflow.data.Dataset.batch
+    val_data:       - data for model validation (given by preprocessing.py) - tensorflow.data.Dataset.batch
+```
+* optional parameter
+```
+    NUM_EPOCHS:     - Maximum number of training epochs. Model will stop (thanks to early stopping callback) to train if no new progress is made, to avoid overfitting - Integer - default = 100
+    model_name:     - name of file where model will be stored (path of model is constructed by - in init - given path and a new folder of current date + given model_name as suffix) - String - default = "" (will result in filename of %H%M%S.h5)
+    model:          - own, custom made model can be used instead of new one - tensorflow.keras.Sequential - default = None (which means that Pipeline will create new)
+    describe:       - whether or not to describe the how the model looks like - Boolean - default = False
+```
+* returns
+```
+    model:          - the trained and evaluated model - tensorflow.keras.Sequential
+```
+
+### predict.py
+Predicts and shows validation data. Can only handle data which has labels (like validation or training data batches)
+#### init class
+inits the class
+* required parameter
+```
+    model:          - model that shall predict the data - tensorflow.keras.Sequential
+    data:           - data batches to be predicted (most likely the validation dataset, given by preprocessing.py) - tensorflow.data.Dataset.batch 
+    unique_labels:  - list of all unique labels that exist. Should be the list that is given by `import_data.unique_labels` which is created using `import_data.
+```
+* optional parameter
+```
+    none
+```
+#### check_predictions()
+Predicts labels based on data and evaluates whether right or wrong. Plots result
+* required parameter
+```
+    none
+```
+* optional parameter
+```
+    num_rows:       - number of rows that will be plotted (multiplied with num_cols results in the number of predictions that are plotted) - Integer - default = 3
+    num_cols:       - number of columns that will be plotted (multiplied with num_rows results in the number of predictions that are plotted) - Integer - default = 2
+    i_multiplier:   - number of images that are skipped before starting to plot (0 means, the first x images in the data batch are used, 10 means that the images 10 to 10+x will be used) - Integer - default = 0
+```
+* returns
+```
+    none
+```
+
+## What's next?
+
+## Further informations:

@@ -60,12 +60,12 @@ class model():
         return tf.keras.callbacks.EarlyStopping(monitor="val_accuracy",
                                                 patience=3)
     
-    def train_model(self, train_data, val_data, NUM_EPOCHS=100, model_name=""):
+    def train_model(self, train_data, val_data, NUM_EPOCHS=100, model_name="", model=None, describe=False):
         """
         Trains a given model and returns the trained version.
         """
         # Create a model
-        model = self.create_model()
+        model = self.create_model(describe, model)
 
         # Create a new TensorBoard session everytime a model gets trained
         tensorboard = self.create_tensorboard_callback()
