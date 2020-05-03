@@ -53,3 +53,16 @@ where as only one of `test`- or `validation`-folder must be available --> Pipeli
 Pipeline will than change the folder structure to be exact the same as in 1.
 
 * IMPORTANT: Folder structure doesn't need to provide a validation set. This set will automatically split the training data into training and validation set using sklearn's <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html" target="_blank">`train_test_split`</a>-function.
+
+## How to use it / possible modifications
+Pipeline provides various options to use it. It is built very modular, so you can insert and use all the scripts in `script`-folder independently. Going through them step-by-step
+
+### import_data.py
+* required parameter
+```
+    path:       - path to the dataset (as described above) - String
+```
+* optional parameter
+```
+    NUM_IMAGES: - number of images that shall be used to train the model. Helps during testing process to avoid the model from taking too much time during training - Integer - default = -1 --> all
+```
