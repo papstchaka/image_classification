@@ -20,15 +20,18 @@ class model():
         import tensorflow, tensorflow_hub, datetime, os
         tf, hub, datetime, os = tensorflow, tensorflow_hub, datetime, os
         
-    def create_model(self, describe=False):
+    def create_model(self, describe=False, model=None):
         print("Building model with:", self.MODEL_URL)
 
         # Setup the model layers
-        model = tf.keras.Sequential([
-                    hub.KerasLayer(self.MODEL_URL), # Layer 1 (input layer)
-                    tf.keras.layers.Dense(units = self.OUTPUT_SHAPE,
-                                          activation = "softmax") # Layer 2 (output layer)
-        ])
+        if model != None:
+            model = model
+        else:
+            model = tf.keras.Sequential([
+                        hub.KerasLayer(self.MODEL_URL), # Layer 1 (input layer)
+                        tf.keras.layers.Dense(units = self.OUTPUT_SHAPE,
+                                              activation = "softmax") # Layer 2 (output layer)
+            ])
 
         # Compile the model
         model.compile(
